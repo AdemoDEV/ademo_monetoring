@@ -7,16 +7,21 @@ const PROXY_USERNAME = "77gqbtIxzQs7AwJX";
 const PROXY_PASSWORD = "HBTHlQ0d80YKXLex";
 
 const URL = "https://www.dreamland.be/e/SearchDisplay?categoryId=&storeId=13102&catalogId=15501&langId=-2&sType=SimpleSearch&resultCatEntryType=2&showResultsPage=true&searchSource=Q&pageView=&beginIndex=0&pageSize=4000&searchTerm=Pok%C3%A9mon+TCG";
-const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1340416114819338403/oQKDU-BV-VMjg6yJ2CaRL86F4tXdHIu5OLnxXrm7NLp_ANvgC4t0sjKzXWV5QsoqEtnX";
+const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1340506949740924982/oZO3U011AmHa0TGu_nffrXdwmFmBvlwOoYcRanwjJ-vHauoet6cEHEOe8n4GPCh7p_HI";
 
 const EmbedDiscord = {
     panier: "https://www.dreamland.be/e/fr/ShopCartOverviewCmd?calculationUsageId=-1&catalogId=15501&doConfigurationValidation=Y&updatePrices=1&orderId=.&langId=-2&storeId=13102&errorViewName=ShopCartOverviewCmd&URL=ShopCartOverviewCmd",
     account: "https://www.dreamland.be/webapp/wcs/stores/servlet/fr/OrderHistoryDisplayView?catalogId=15501&storeId=13102&langId=-2",
     payment: "https://www.dreamland.be/e/fr/dl/checkout-delivery?",
-}
+};
+
 let previousProducts = new Map();
+
 async function notifyDiscord(product) {
     console.log("📡 Envoi du produit sur Discord :", product);
+
+    // 🔹 **URL pour ajouter au panier automatiquement**
+    const atcURL = `${product.url}?autoAdd=1`;
 
     const embed = {
         embeds: [
@@ -28,8 +33,8 @@ async function notifyDiscord(product) {
                 fields: [
                     { name: "**Site**", value: "DreamLand", inline: false },
                     { name: "**Prix**", value: `\`${product.price || "Non disponible"} €\``, inline: false },
-                    { name: "**ATC**", value: "[Clique ici](https://www.dreamland.be) pour ajouter au panier.", inline: false },
-                    { name: "**Liens**", value: `[Panier](${EmbedDiscord.panier || "https://www.dreamland.be"}) | [Compte](${EmbedDiscord.account || "https://www.dreamland.be"}) | [Paiement](${EmbedDiscord.payment || "https://www.dreamland.be"})`, inline: false },
+                    { name: "**Liens**", value: `[Redirections vers la page](${product.url})`, inline: false },
+                    { name: "**Utils**", value: `[Panier](${EmbedDiscord.panier}) | [Compte](${EmbedDiscord.account}) | [Paiement](${EmbedDiscord.payment})`, inline: false },
                 ],
                 footer: { text: "🔍 Surveillance automatique Dreamland" },
                 timestamp: new Date().toISOString(),
@@ -55,7 +60,7 @@ async function notifyDiscord(product) {
             await fetch(DISCORD_WEBHOOK_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ content: `**${product.title}**\n💰 Prix : ${product.price}\n🔗 [Voir le produit](${product.url})` }),
+                body: JSON.stringify({ content: `**${product.title}**\n💰 Prix : ${product.price}\n🔗 [Voir le produit](${product.url})\n🛒 [Ajouter au panier](${atcURL})` }),
             });
             console.log("✅ Produit envoyé sous forme de message texte.");
         }
@@ -63,7 +68,6 @@ async function notifyDiscord(product) {
         console.error("❌ Erreur lors de l'envoi à Discord :", err);
     }
 }
-
 
 async function checkDreamlandStock(browser) {
     const page = await browser.newPage();
@@ -87,7 +91,6 @@ async function checkDreamlandStock(browser) {
             return;
         }
 
-        // **Correction de l'URL des produits AVANT de les envoyer**
         products = products.map(product => ({
             ...product,
             url: generateProductURL(product.title, product.productId)
@@ -133,7 +136,6 @@ async function parse_results(page) {
     });
 }
 
-
 function generateProductURL(title, productId) {
     if (!productId) return "https://www.dreamland.be";
 
@@ -142,7 +144,6 @@ function generateProductURL(title, productId) {
         .replace(/\s+/g, "-")
         .toLowerCase();
 
-    // **Encodage uniquement des caractères spéciaux**
     formattedTitle = formattedTitle.split("-").map(encodeURIComponent).join("-");
 
     return `https://www.dreamland.be/e/fr/dl/${formattedTitle}-${productId}`;
