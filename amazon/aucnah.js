@@ -24,7 +24,7 @@ async function notifyDiscord(product) {
             {
                 title: product.title,
                 url: product.url,
-                color: 10181046, // Couleur violet foncé
+                color: 5763719, // Couleur violet foncé
                 thumbnail: { url: product.image || "https://via.placeholder.com/150" },
                 fields: [
                     { name: "**Site**", value: "Auchan FR", inline: false },

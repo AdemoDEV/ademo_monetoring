@@ -16,7 +16,6 @@ let previousProducts = new Map();
 async function notifyDiscord(product) {
     console.log("📡 Envoi du produit sur Discord :", product);
 
-    // 🔹 **URL pour ajouter au panier automatiquement**
     const atcURL = `${product.url}?autoAdd=1`;
 
     const embed = {
@@ -24,7 +23,7 @@ async function notifyDiscord(product) {
             {
                 title: product.title,
                 url: product.url,
-                color: 10181046, // Couleur violet foncé
+                color: 5763719, // Couleur violet foncé
                 thumbnail: { url: product.image || "https://via.placeholder.com/150" },
                 fields: [
                     { name: "**Site**", value: "Amazon FR", inline: false },
