@@ -24,5 +24,29 @@ export const Monitor = {
             account: "https://www.micromania.fr/customer/account",
             payment: "https://www.micromania.fr/stdcheckout/standard/login",
         },
+        "vinticards" : {
+            nameSite: "Vinit Cards",
+            panier: "https://vinticards.fr/sortie-de-caisse/",
+            account: "https://www.micromania.fr/customer/account",
+            payment: "https://vinticards.fr/mon-compte/edit-account/",
+        },
+        "joueclub" : {
+            nameSite: "Joue Club",
+            panier: "https://www.joueclub.fr/contenu/mon-panier.html",
+            account: "https://www.micromania.fr/customer/account",
+            payment: "https://www.joueclub.fr/joueclub/mon-compte.html",
+        },
+        "smartoys" : {
+            nameSite: "Smartoys",
+            panier: "https://www.smartoys.be/catalog/shopping_cart.php",
+            account: "https://www.smartoys.be/catalog/account.php",
+            payment: "https://www.smartoys.be/catalog/checkout_primary_address_complete.php?edit=1000075543",
+        },
+        "guizettefamily" : {
+            nameSite: "Guizette Family",
+            panier: "https://www.guizettefamily.com/panier/",
+            account: "https://www.guizettefamily.com/mon-compte/",
+            payment: "https://www.guizettefamily.com/commander/",
+        },
     }
 }

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Click</title>
+</head>
+<body>
+    <p>Exécution en cours... Veuillez patienter.</p>
+    <script>
+        setTimeout(() => {
+            let bouton = document.querySelector('.jc-btn.jc-btn__primary.has-shadow');
+            if (bouton) {
+                bouton.click();
+                console.log("Bouton cliqué !");
+            } else {
+                console.log("Bouton introuvable.");
+            }
+        }, 2000); // Attente de 2 secondes pour s'assurer que la page charge bien
+    </script>
+</body>
+</html>

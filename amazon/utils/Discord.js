@@ -1,18 +1,19 @@
 import fetch from "node-fetch";
 import {Monitor} from "../config/config.js"
 export async function notifyDiscord(product, webhook, Site) {
+    console.log(product.image)
     const embed = {
         embeds: [
             {
                 title: product.title,
                 url: product.url,
                 color: 5763719, 
-                thumbnail: { url: product.image || "https://via.placeholder.com/150" },
+                thumbnail: { url: product.url_image || "https://via.placeholder.com/150" },
                 fields: [
-                    { name: "**Site**", value: `\`${Monitor.EmbedLink[Site].nameSite}\``, inline: false },
-                    { name: "**Prix**", value: `\`${product.price || "Non disponible"} €\``, inline: false },
-                    { name: "**Liens**", value: `[Redirections vers la page](${product.url})`, inline: false },
-                    { name: "**Utils**", value: `[Panier](${Monitor.EmbedLink[Site].panier}) | [Compte](${Monitor.EmbedLink[Site].account}) | [Paiement](${Monitor.EmbedLink[Site].payment})`, inline: false },
+                    { name: "**🌍 Site**", value: `\`${Monitor.EmbedLink[Site].nameSite}\``, inline: false },
+                    { name: "**💰 Prix**", value: `\`${product.price || "Non disponible"}\``, inline: false },
+                    { name: "**🔗 Liens**", value: `[Redirections vers la page](${product.url})`, inline: false },
+                    { name: "**🔗 Utils**", value: `[Panier](${Monitor.EmbedLink[Site].panier}) | [Compte](${Monitor.EmbedLink[Site].account}) | [Paiement](${Monitor.EmbedLink[Site].payment})`, inline: false },
                 ],
                 footer: { text: "PokéSauce Surveillance" },
                 timestamp: new Date().toISOString(),
