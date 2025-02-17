@@ -48,5 +48,12 @@ export const Monitor = {
             account: "https://www.guizettefamily.com/mon-compte/",
             payment: "https://www.guizettefamily.com/commander/",
         },
+        "leclerc" : {
+            nameSite: "Leclerc",
+            panier: "https://www.e.leclerc/cart",
+            account: "https://www.e.leclerc/espace-client/mon-compte/mon-compte",
+            payment: "https://www.e.leclerc/order/delivery",
+        },
+
     }
 }
