@@ -86,13 +86,13 @@ async function parse_results(page) {
                 price = `${priceWhole}${priceCents}`;
             }
 
-            const image = el.querySelector(".ProductPicWrapper a img")?.getAttribute("src");
-            const url_image = image ? `https://www.smartoys.be/catalog/${image}` : "Non disponible";
+            const url_image = el.querySelector(".ProductPicWrapper a img")?.getAttribute("src");
+            const image = url_image ? `https://www.smartoys.be/catalog/${image}` : "Non disponible";
             
             const relativeUrl = el.querySelector(".group.inner.list-group-item-heading.nameart.text-center a")?.getAttribute("href");
             const url = relativeUrl ? relativeUrl : "Non disponible";
 
-            return { title, price, url_image, url };
+            return { title, price, image, url };
         }).filter(product => product.title !== "Produit inconnu");
     });
 }

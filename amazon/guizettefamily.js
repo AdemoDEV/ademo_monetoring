@@ -79,14 +79,14 @@ async function parse_results(page) {
             const url = titleElement ? titleElement.getAttribute("href") : "Non disponible";
 
             const imageElement = el.querySelector(".fl-post-grid-post a img");
-            const url_image = imageElement ? imageElement.getAttribute("src") : "Non disponible";
+            const image = imageElement ? imageElement.getAttribute("src") : "Non disponible";
 
             // Récupération du prix
             const priceElement = el.querySelector(".woocommerce-Price-amount bdi");
             const price = priceElement ? `${priceElement.childNodes[0].nodeValue.trim()}€` : "Hors stock";
             
 
-            return { title, price, url_image, url };
+            return { title, price, image, url };
         }).filter(product => product.title !== "Produit inconnu");
     });
 }

@@ -1,4 +1,5 @@
 export const Monitor = {
+    RoleMention : {MENTION_ROLE_ID: "1206011529820901466", MENTION_ROLE_2: "1317782681819414549"},
     EmbedLink : {
         "dreamland" : {
             nameSite: "DreamLand",
@@ -53,6 +54,12 @@ export const Monitor = {
             panier: "https://www.e.leclerc/cart",
             account: "https://www.e.leclerc/espace-client/mon-compte/mon-compte",
             payment: "https://www.e.leclerc/order/delivery",
+        },
+        "lagranderecre" : {
+            nameSite: "la Grande Récre",
+            panier: "https://www.lagranderecre.fr/la-grande-recre/detail-du-panier.html",
+            account: "https://www.lagranderecre.fr/mon-compte/",
+            payment: "https://www.lagranderecre.fr/la-grande-recre/finaliser-votre-commande.html",
         },
 
     }
