@@ -36,7 +36,7 @@ export async function notifyDiscord(product, webhooks, Site, stockon, stock) {
 
         if (!channel) {
             console.error(`❌ Le salon Discord avec l'ID ${channelID} est introuvable.`);
-            return;
+            return; 
         }
         const embed = new EmbedBuilder()
             .setTitle(product.title)
@@ -61,11 +61,11 @@ export async function notifyDiscord(product, webhooks, Site, stockon, stock) {
             .setFooter({ text: 'PokéSauce Surveillance' })
             .setTimestamp();
         const roleMention = `<@&${Monitor.RoleMention.MENTION_ROLE_ID}> <@&${Monitor.RoleMention.MENTION_ROLE_2}>`;
-        await channel.send({
-            content: roleMention,
-            embeds: [embed],
-            allowedMentions: { parse: ['roles'] },
-        });
+        // await channel.send({
+        //     content: roleMention,
+        //     embeds: [embed],
+        //     allowedMentions: { parse: ['roles'] },
+        // });
         console.log(`✅ Produit envoyé à Discord (${Site}) : ${product.title}`);
     } catch (err) {
         console.error('❌ Erreur lors de l\'envoi à Discord :', err);

@@ -6,7 +6,7 @@ const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/133974050440911668
 
 const PRODUCT_URLS = [
     "https://www.auchan.fr/pokemon-coffret-academie-de-combat-pokemon-2nd-edition/pr-C1490619",
-    "https://www.auchan.fr/pokemon-coffret-cartes-pokemon-scalpereur-fable-nebuleuse/pr-C1813056",
+    "https://www.auchan.fr/pokemon-coffret-pokemon-v-fulgudog/pr-C1511095",
 ];
 
 export async function Ademo_CheckAuchan(browser) {
@@ -26,10 +26,12 @@ export async function Ademo_CheckAuchan(browser) {
                 continue;
             }
 
-            console.log(`📢 NOUVEAU ou DE RETOUR EN STOCK : ${product.title}, Prix: ${product.price}`);
-            await notifyDiscord(product, DISCORD_WEBHOOK_URL, "auchan");
-
-            // Attendre un délai aléatoire entre chaque produit pour simuler un comportement humain
+            if (product.price !== "Non disponible") {
+                await notifyDiscord(product, DISCORD_WEBHOOK_URL, "auchan");
+                console.log(`📢 NOUVEAU ou DE RETOUR EN STOCK : ${product.title}, Prix: ${product.price}`);
+            } else {
+                console.log(`📢 Toujours Indisponible : ${product.title}, Prix: ${product.price}`);
+            }
             const delay = 5000 + Math.random() * 5000;
             console.log(`⏱️ Attente de ${Math.round(delay / 1000)} secondes avant le prochain produit...`);
             await new Promise(resolve => setTimeout(resolve, delay));

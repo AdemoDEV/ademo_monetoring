@@ -37,7 +37,7 @@ const PROXY_PORT = "12321";
         //  Ademo_checkMicromania(browser),
         //  Ademo_CheckLecler(browser),
         //  Ademo_CheckSmartoys(browser),
-        //  Ademo_CheckLaGrandRecre(browser),
+        // Ademo_CheckLaGrandRecre(browser),
         //  Ademo_CheckJoueClub(browser),
         //  Ademo_CheckGuiztteFamily(browser),
         //  Ademo_CheckDreamLand(browser),
