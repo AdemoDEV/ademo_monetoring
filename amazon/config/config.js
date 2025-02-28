@@ -26,7 +26,7 @@ export const Monitor = {
             payment: "https://www.micromania.fr/stdcheckout/standard/login",
         },
         "vinticards" : {
-            nameSite: "Vinit Cards",
+            nameSite: "VintiCards",
             panier: "https://vinticards.fr/sortie-de-caisse/",
             account: "https://www.micromania.fr/customer/account",
             payment: "https://vinticards.fr/mon-compte/edit-account/",
@@ -60,6 +60,18 @@ export const Monitor = {
             panier: "https://www.lagranderecre.fr/la-grande-recre/detail-du-panier.html",
             account: "https://www.lagranderecre.fr/mon-compte/",
             payment: "https://www.lagranderecre.fr/la-grande-recre/finaliser-votre-commande.html",
+        },
+        "fnac" : {
+            nameSite: "Fnac",
+            panier: "https://secure.fr.fnac.be/orderpipe/pop/panier",
+            account: "https://secure.fr.fnac.be/account/dashboard",
+            payment: "https://secure.fr.fnac.be/orderpipe/pop/livraison/fnac-0",
+        },
+        "kingjouet" : {
+            nameSite: "KingJouet",
+            panier: "https://secure.fr.fnac.be/orderpipe/pop/panier",
+            account: "https://secure.fr.fnac.be/account/dashboard",
+            payment: "https://secure.fr.fnac.be/orderpipe/pop/livraison/fnac-0",
         },
 
     }
