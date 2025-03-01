@@ -1,0 +1,5 @@
+let productUrl = "https://www.amazon.com.be/Fable-N%C3%A9buleuse-enti%C3%A8rement-illustr%C3%A9e-Accessoires/dp/B0D7QP688Q/ref=sr_1_3?crid=3MQ6ZAY9SHABY&dib=eyJ2IjoiMSJ9.ye7AD5LtiymsgU6zz05YNEwfQgbXc89HbP8LnzfDwr61nF0HVC3a40uU10JiyeHT1XFWj8sq-hT66SoU1PB0sJzXwOZ-CGgyvZ6lQjfj--j3GcSib_4jpve6j_tOb0NA1S_Z1GmFF8fmFCyDhlXXVljvuzrElvOqNq47VCxJSOYlb6YQToBkSFbeyy_M6AFdL0hkrDNc-BSoPbjM7rhwIRowxJXKmgm9TwL4WfKrUpFBzFbKfAGsGRis6GowHdqWYKhU1FiRkHt-pmKgMat4EKHxyv4coomxT8kcxDTHxn5APUp74FFKBU7uBk-6pSiCghee8qT66dMNVHUMI1M47In-dNgg1lHSOM_B1BSOoz_Fx9qX11TkUzSk7Hmik0bq0_KpkrduApDq7wZAXx9ity3VWlclgnIUwI4I_t9E2h_eCsal3XCis_lyiIY_pT6l.w5o58fineGH5q7uk7UtNlZj1STnvhkMyez3DONQtzYE&dib_tag=se&keywords=Pok%C3%A9mon+Coffret&qid=1740780946&sprefix=pok%C3%A9mon+coffret%2Caps%2C194&sr=8-3";
+
+// Garder uniquement la partie de base de l'URL sans les paramètres
+const cleanUrl = productUrl.split('?')[0];
+console.log(cleanUrl);

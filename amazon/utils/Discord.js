@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, EmbedBuilder } from 'discord.js';
+import { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle  } from 'discord.js';
 import { Monitor } from '../config/config.js';
 const DISCORD_TOKEN = 'Njg2MTk2MTAzNzY2MzQzNjk0.GYLb0W.s0ORpuHiDcYOZM9o5Lczo7Q_Xlkw4-h9x6S5pA';
 
@@ -23,6 +23,7 @@ const client = new Client({
 client.once('ready', () => {
     console.log(`🤖 Connecté en tant que ${client.user.tag}`);
 });
+
 
 export async function notifyDiscord(product, webhooks, Site, stockon, stock) {
     try {
@@ -61,11 +62,11 @@ export async function notifyDiscord(product, webhooks, Site, stockon, stock) {
             .setFooter({ text: 'PokéSauce Surveillance' })
             .setTimestamp();
         const roleMention = `<@&${Monitor.RoleMention.MENTION_ROLE_ID}> <@&${Monitor.RoleMention.MENTION_ROLE_2}>`;
-        // await channel.send({
-        //     content: roleMention,
-        //     embeds: [embed],
-        //     allowedMentions: { parse: ['roles'] },
-        // });
+         await channel.send({
+             content: roleMention,
+             embeds: [embed],
+             allowedMentions: { parse: ['roles'] },
+         });
         console.log(`✅ Produit envoyé à Discord (${Site}) : ${product.title}`);
     } catch (err) {
         console.error('❌ Erreur lors de l\'envoi à Discord :', err);

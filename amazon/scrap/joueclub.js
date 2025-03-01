@@ -2,10 +2,11 @@ import { notifyDiscord } from "../utils/Discord.js";
 const PROXY_USERNAME = "77gqbtIxzQs7AwJX";
 const PROXY_PASSWORD = "HBTHlQ0d80YKXLex";
 
-const URL = "https://www.joueclub.fr/jeux-de-constructions-maquettes/pokemon-bulbizarre-pixel-art-374-briques-0194735190836.html";
+const PRODUCT_URLS = ["https://www.joueclub.fr/jeux-de-constructions-maquettes/pokemon-bulbizarre-pixel-art-374-briques-0194735190836.html"];
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1340782468802019550/6E7InrbWiYduRdd8ttezYj368GZX_-skyboof1ipZSp_V0pIRJNb8F9QS_Xn0_CyO9SB";
 
 export async function Ademo_CheckJoueClub(browser) {
+    for (URL of PRODUCT_URLS) {
     const page = await browser.newPage();
     await page.authenticate({ username: PROXY_USERNAME, password: PROXY_PASSWORD });
     await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36");
@@ -28,6 +29,7 @@ export async function Ademo_CheckJoueClub(browser) {
     } finally {
         await page.close();
     }
+ }
 }
 
 async function parse_results(page) {

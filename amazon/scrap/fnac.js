@@ -1,10 +1,12 @@
 import { notifyDiscord } from "../utils/Discord.js";
 const PROXY_USERNAME = "77gqbtIxzQs7AwJX";
 const PROXY_PASSWORD = "HBTHlQ0d80YKXLex";
-const URL = "https://www.fr.fnac.be/Carte-a-collectionner-Pokemon-Coffret-Collection-Premium-Dracaufeu-ex/a17884220";
+
+const PRODUCT_URLS = ["https://www.fr.fnac.be/Carte-a-collectionner-Pokemon-Coffret-Collection-Premium-Dracaufeu-ex/a17884220"];
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1341888650530525246/uGkh3jSnfZaValdAzShfFqVT0ul-c0ccooGPf_VVE34zQ1VT3VH9M9_lT7O-jaFkuf_V";
 
 export async function Ademo_CheckFnac(browser) {
+    for (URL of PRODUCT_URLS) {
     const page = await browser.newPage();
     await page.authenticate({ username: PROXY_USERNAME, password: PROXY_PASSWORD });
     await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36");
@@ -27,6 +29,7 @@ export async function Ademo_CheckFnac(browser) {
     } finally {
         await page.close();
     }
+  }
 }
 
 async function parseProduct(page) {
