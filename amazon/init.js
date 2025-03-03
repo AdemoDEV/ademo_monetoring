@@ -37,79 +37,106 @@ export let Product = {
 console.log("✅ Chargement de init.js...");
 
 
+// (async () => {
+//     try {
+//         await connectDB();
+//         await DefaultTable();
+//         console.log("✅ Base de données connectée avec succès !");
+//         client.login();
+//          await new Promise(resolve => setTimeout(resolve, 5000));
+//          puppeteer.use(StealthPlugin());
+//          const browser = 
+//          await puppeteer.launch({
+//              headless: true,
+//              args: [
+//                  `--proxy-server=${PROXY_HOST}:${PROXY_PORT}`,
+//                  '--no-sandbox',
+//                  '--disable-setuid-sandbox',
+//                  '--disable-blink-features=AutomationControlled',
+//                  '--disable-infobars',
+//                  '--window-size=1920,1080'
+//              ],
+//          });
+//          await new Promise(resolve => setTimeout(resolve, 5000));
+//          console.log("✅ Lancement de Puppeteer via Proxy...");
+//          await Promise.all([
+//              // Ademo_CheckFnac(browser, Product["fnac"]),
+//              // Ademo_CheckVintiCards(browser, Product["vinticards"]),
+//              // Ademo_checkMicromania(browser, Product["micromania"]),
+//             //  Ademo_CheckLecler(browser, Product["leclerc"]),
+//               Ademo_CheckSmartoys(browser, Product["smartoys"]),
+//              // Ademo_CheckLaGrandRecre(browser, Product["lagrandrecree"]),
+//              // Ademo_CheckJoueClub(browser, Product["joueclub"]),
+//              // Ademo_CheckGuiztteFamily(browser, Product["guizettefamily"]),
+//              // Ademo_CheckDreamLand(browser, Product["dreamland"]),
+//              // Ademo_CheckAuchan(browser, Product["auchan"]),
+//              // Ademo_CheckAmazon(browser, Product["amazon"])
+//          ]);
+     
+//         console.log("🛑 Scraping terminé. Fermeture du navigateur.");
+//         await browser.close();
+//     } catch (error) {
+//         console.error("❌ Erreur lors du démarrage du bot :", error);
+//     }
+// })();
+
 (async () => {
     try {
         await connectDB();
         await DefaultTable();
         console.log("✅ Base de données connectée avec succès !");
         client.login();
-         await new Promise(resolve => setTimeout(resolve, 5000));
-         puppeteer.use(StealthPlugin());
-         const browser = 
-         await puppeteer.launch({
-             headless: true,
-             args: [
-                 `--proxy-server=${PROXY_HOST}:${PROXY_PORT}`,
-                 '--no-sandbox',
-                 '--disable-setuid-sandbox',
-                 '--disable-blink-features=AutomationControlled',
-                 '--disable-infobars',
-                 '--window-size=1920,1080'
-             ],
-         });
-         await new Promise(resolve => setTimeout(resolve, 5000));
-         console.log("✅ Lancement de Puppeteer via Proxy...");
-         await Promise.all([
-             // Ademo_CheckFnac(browser, Product["fnac"]),
-             // Ademo_CheckVintiCards(browser, Product["vinticards"]),
-             // Ademo_checkMicromania(browser, Product["micromania"]),
-            //  Ademo_CheckLecler(browser, Product["leclerc"]),
-              Ademo_CheckSmartoys(browser, Product["smartoys"]),
-             // Ademo_CheckLaGrandRecre(browser, Product["lagrandrecree"]),
-             // Ademo_CheckJoueClub(browser, Product["joueclub"]),
-             // Ademo_CheckGuiztteFamily(browser, Product["guizettefamily"]),
-             // Ademo_CheckDreamLand(browser, Product["dreamland"]),
-             // Ademo_CheckAuchan(browser, Product["auchan"]),
-             // Ademo_CheckAmazon(browser, Product["amazon"])
-         ]);
-     
-        console.log("🛑 Scraping terminé. Fermeture du navigateur.");
-        await browser.close();
+
+        const launchScraping = async () => {
+            try {
+                console.log("🚀 Lancement du scraping...");
+                await new Promise(resolve => setTimeout(resolve, 5000));
+
+                puppeteer.use(StealthPlugin());
+                const browser = await puppeteer.launch({
+                    headless: true,
+                    args: [
+                        `--proxy-server=${PROXY_HOST}:${PROXY_PORT}`,
+                        '--no-sandbox',
+                        '--disable-setuid-sandbox',
+                        '--disable-blink-features=AutomationControlled',
+                        '--disable-infobars',
+                        '--window-size=1920,1080'
+                    ],
+                });
+
+                await new Promise(resolve => setTimeout(resolve, 5000));
+                console.log("✅ Lancement de Puppeteer via Proxy...");
+
+                await Promise.all([
+                     Ademo_CheckFnac(browser, Product["fnac"]),
+                     Ademo_CheckVintiCards(browser, Product["vinticards"]),
+                     Ademo_checkMicromania(browser, Product["micromania"]),
+                     Ademo_CheckLecler(browser, Product["leclerc"]),
+                    Ademo_CheckSmartoys(browser, Product["smartoys"]),
+                    Ademo_CheckLaGrandRecre(browser, Product["lagrandrecree"]),
+                    Ademo_CheckJoueClub(browser, Product["joueclub"]),
+                    Ademo_CheckGuiztteFamily(browser, Product["guizettefamily"]),
+                    Ademo_CheckDreamLand(browser, Product["dreamland"]),
+                    Ademo_CheckAuchan(browser, Product["auchan"]),
+                    Ademo_CheckAmazon(browser, Product["amazon"])
+                ]);
+
+                console.log("🛑 Scraping terminé. Fermeture du navigateur.");
+                await browser.close();
+            } catch (error) {
+                console.error("❌ Erreur lors du scraping :", error);
+            }
+        };
+
+        await launchScraping();
+        setInterval(async () => {
+            console.log("⏳ Attente 1 heure avant le prochain scraping...");
+            await launchScraping();
+        }, 3600000);
+
     } catch (error) {
         console.error("❌ Erreur lors du démarrage du bot :", error);
     }
 })();
 
-//  (async () => {
-//      puppeteer.use(StealthPlugin());
-//      const browser = 
-//      await puppeteer.launch({
-//          headless: false,
-//          args: [
-//              `--proxy-server=${PROXY_HOST}:${PROXY_PORT}`,
-//              '--no-sandbox',
-//              '--disable-setuid-sandbox',
-//              '--disable-blink-features=AutomationControlled',
-//              '--disable-infobars',
-//              '--window-size=1920,1080'
-//          ],
-//      });
-//      await new Promise(resolve => setTimeout(resolve, 5000));
-//      console.log("✅ Lancement de Puppeteer via Proxy...");
-//      await Promise.all([
-//          //  Ademo_CheckFnac(browser),
-//          //  Ademo_CheckVintiCards(browser),
-//          //  Ademo_checkMicromania(browser),
-//          //  Ademo_CheckLecler(browser),
-//          //  Ademo_CheckSmartoys(browser),
-//          // Ademo_CheckLaGrandRecre(browser),
-//          //  Ademo_CheckJoueClub(browser),
-//          //  Ademo_CheckGuiztteFamily(browser),
-//          //  Ademo_CheckDreamLand(browser),
-//          //  Ademo_CheckAuchan(browser),
-//          Ademo_CheckAmazon(browser, Product["amazon"])
-//      ]);
-  
-//      console.log("🛑 Scraping terminé. Fermeture du navigateur.");
-//      await browser.close();
-//  })();
