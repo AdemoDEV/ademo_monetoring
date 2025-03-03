@@ -1,5 +1,8 @@
 import { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, SlashCommandBuilder  } from 'discord.js';
-import { GetProductAll, AddProductToDB } from '../db/db.js';
+import { GetProductAll } from '../db/db_function/db_getProductAll.js';
+import { AddProductToDB } from '../db/db_function/db_addProduct.js';
+import { Startmessage } from './Discord/StartMessage.js';
+
 const DISCORD_TOKEN = 'Njg2MTk2MTAzNzY2MzQzNjk0.GYLb0W.s0ORpuHiDcYOZM9o5Lczo7Q_Xlkw4-h9x6S5pA';
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
@@ -7,7 +10,7 @@ const client = new Client({
 
 client.once('ready', async () => {
     console.log(`🤖 Connecté en tant que ${client.user.tag}`);
-
+    Startmessage(client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ModalBuilder, TextInputBuilder, TextInputStyle, SlashCommandBuilder);
     const commands = [
         new SlashCommandBuilder()
             .setName('additem')
@@ -166,3 +169,5 @@ client.on('interactionCreate', async interaction => {
 });
 
 client.login(DISCORD_TOKEN);
+
+export default client;

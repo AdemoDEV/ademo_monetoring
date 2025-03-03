@@ -2,29 +2,37 @@ import {notifyDiscord} from "../utils/Discord.js"
 const PROXY_USERNAME = "77gqbtIxzQs7AwJX";
 const PROXY_PASSWORD = "HBTHlQ0d80YKXLex";
 
-const PRODUCT_URLS = [
-    "https://www.dreamland.be/e/fr/dl/pok%C3%A9mon-tcg-premium-collection-darkrai-vstar-ang-165977" 
-];
+// const PRODUCT_URLS = [
+//     "https://www.dreamland.be/e/fr/dl/pok%C3%A9mon-tcg-premium-collection-darkrai-vstar-ang-165977" 
+// ];
 
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1340506949740924982/oZO3U011AmHa0TGu_nffrXdwmFmBvlwOoYcRanwjJ-vHauoet6cEHEOe8n4GPCh7p_HI";
 
-export async function Ademo_CheckDreamLand(browser) {
-    for (URL of PRODUCT_URLS) {
+export async function Ademo_CheckDreamLand(browser, PRODUCT_URLS) {
+    for (const URL of PRODUCT_URLS) {
         const page = await browser.newPage();
 
         await page.authenticate({ username: PROXY_USERNAME, password: PROXY_PASSWORD });
         await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36");
         
         try {
-            await page.goto(URL, { waitUntil: "networkidle2" });
+            console.log(`🌐 Navigation vers : ${URL}`);
+            await page.goto(URL, { waitUntil: 'networkidle2', timeout: 60000 });
             let product = await parse_results(page);
             if (product.length === 0) {
                 console.warn("⚠️ Aucun produit trouvé, vérifie le sélecteur ou le chargement JS.");
                 return;
             }
-            console.log(`📢 NOUVEAU ou DE RETOUR EN STOCK : ${product.title}, Prix: ${product.price}`);
-            await notifyDiscord(product, DISCORD_WEBHOOK_URL, "dreamland");
 
+            if (product.price !== "Non disponible") {
+                console.log(`📢 Produit trouvé : ${product.title}, Prix: ${product.price}`);
+                await notifyDiscord(product, DISCORD_WEBHOOK_URL, "dreamland", false, "non", true, "✅ Disponible", true);
+            } else {
+                console.log(`📢 Produit indisponible : ${product.title}, Prix: ${product.price}`);
+            }
+            const delay = 5000 + Math.random() * 5000;
+            console.log(`⏱️ Attente de ${Math.round(delay / 1000)} secondes avant le prochain produit...`);
+            await new Promise(resolve => setTimeout(resolve, delay));
         } catch (err) {
             console.error("❌ Erreur lors du scraping :", err);
         } finally {

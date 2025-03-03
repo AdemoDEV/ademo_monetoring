@@ -24,9 +24,9 @@ client.once('ready', () => {
     console.log(`🤖 Connecté en tant que ${client.user.tag}`);
 });
 
-
-export async function notifyDiscord(product, webhooks, Site, stockon, stock) {
+export async function notifyDiscord(product, webhooks, Site, stockon, stock, plus, plustitle, enligne) {
     try {
+        enligne = enligne || false;
         const channelID = channelMapping[Site];
         if (!channelID) {
             console.error(`❌ Aucun salon Discord configuré pour le site : ${Site}`);
@@ -48,11 +48,8 @@ export async function notifyDiscord(product, webhooks, Site, stockon, stock) {
                 { name: '**🌍 Site**', value: `\`${Monitor.EmbedLink[Site].nameSite}\``, inline: false },
                 { name: '**💰 Prix**', value: `\`${product.price || 'Non disponible'}\``, inline: false },
                 ...(stockon ? [{ name: '**🏝️ Disponibilité**', value: `\`✖️${stock}\``, inline: false }] : []),
-                {
-                    name: '**🔗 Liens**',
-                    value: `[Redirections vers la page](${product.url})`,
-                    inline: false,
-                },
+                ...(plus ? [{ name: '**🏝️ Remarque**', value: `\`${plustitle}\``, inline: false }] : []),
+                ...(enligne ? [{ name: '** ATC **', value: `[Ajouté au panier](${product.url})`, inline: false }] : []),
                 {
                     name: '**🔗 Utils**',
                     value: `[Panier](${Monitor.EmbedLink[Site].panier}) | [Compte](${Monitor.EmbedLink[Site].account}) | [Paiement](${Monitor.EmbedLink[Site].payment})`,
@@ -61,11 +58,15 @@ export async function notifyDiscord(product, webhooks, Site, stockon, stock) {
             )
             .setFooter({ text: 'PokéSauce Surveillance' })
             .setTimestamp();
+
+
+ 
+                    
         const roleMention = `<@&${Monitor.RoleMention.MENTION_ROLE_ID}> <@&${Monitor.RoleMention.MENTION_ROLE_2}>`;
          await channel.send({
              content: roleMention,
              embeds: [embed],
-             allowedMentions: { parse: ['roles'] },
+             allowedMentions: { parse: ['roles'],},
          });
         console.log(`✅ Produit envoyé à Discord (${Site}) : ${product.title}`);
     } catch (err) {

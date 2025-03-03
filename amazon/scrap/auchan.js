@@ -4,12 +4,7 @@ const PROXY_PASSWORD = "HBTHlQ0d80YKXLex";
 
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1339740504409116682/nuOU4AajJFklj01SmidgHJ7TpgQfYSuF67n6q1zGFF2FiSqF897kirp5CoZMnDtDi-Qc";
 
-const PRODUCT_URLS = [
-    "https://www.auchan.fr/pokemon-coffret-academie-de-combat-pokemon-2nd-edition/pr-C1490619",
-    "https://www.auchan.fr/pokemon-coffret-pokemon-v-fulgudog/pr-C1511095",
-];
-
-export async function Ademo_CheckAuchan(browser) {
+export async function Ademo_CheckAuchan(browser, PRODUCT_URLS) {
     for (const URL of PRODUCT_URLS) {
         const page = await browser.newPage();
         await page.authenticate({ username: PROXY_USERNAME, password: PROXY_PASSWORD });
@@ -17,7 +12,7 @@ export async function Ademo_CheckAuchan(browser) {
 
         try {
             console.log(`🌐 Navigation vers : ${URL}`);
-            await page.goto(URL, { waitUntil: "networkidle2" });
+            await page.goto(URL, { waitUntil: 'networkidle2', timeout: 60000 });
 
             const product = await parse_results(page);
             if (!product || !product.title || product.title === "Produit inconnu") {
@@ -27,15 +22,14 @@ export async function Ademo_CheckAuchan(browser) {
             }
 
             if (product.price !== "Non disponible") {
-                await notifyDiscord(product, DISCORD_WEBHOOK_URL, "auchan");
-                console.log(`📢 NOUVEAU ou DE RETOUR EN STOCK : ${product.title}, Prix: ${product.price}`);
+                console.log(`📢 Produit trouvé : ${product.title}, Prix: ${product.price}`);
+                await notifyDiscord(product, DISCORD_WEBHOOK_URL, "auchan", false, "non", true, "✅ Disponible", true);
             } else {
-                console.log(`📢 Toujours Indisponible : ${product.title}, Prix: ${product.price}`);
+                console.log(`📢 Produit indisponible : ${product.title}, Prix: ${product.price}`);
             }
             const delay = 5000 + Math.random() * 5000;
             console.log(`⏱️ Attente de ${Math.round(delay / 1000)} secondes avant le prochain produit...`);
             await new Promise(resolve => setTimeout(resolve, delay));
-
         } catch (err) {
             console.error("❌ Erreur lors du scraping :", err);
         } finally {
