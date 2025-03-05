@@ -37,7 +37,7 @@ export let Product = {
 console.log("✅ Chargement de init.js...");
 
 
-// (async () => {
+// DEV (async () => {
 //     try {
 //         await connectDB();
 //         await DefaultTable();
@@ -109,10 +109,10 @@ console.log("✅ Chargement de init.js...");
                 console.log("✅ Lancement de Puppeteer via Proxy...");
 
                 await Promise.all([
-                     Ademo_CheckFnac(browser, Product["fnac"]),
-                     Ademo_CheckVintiCards(browser, Product["vinticards"]),
-                     Ademo_checkMicromania(browser, Product["micromania"]),
-                     Ademo_CheckLecler(browser, Product["leclerc"]),
+                    Ademo_CheckFnac(browser, Product["fnac"]),
+                    Ademo_CheckVintiCards(browser, Product["vinticards"]),
+                    Ademo_checkMicromania(browser, Product["micromania"]),
+                    Ademo_CheckLecler(browser, Product["leclerc"]),
                     Ademo_CheckSmartoys(browser, Product["smartoys"]),
                     Ademo_CheckLaGrandRecre(browser, Product["lagrandrecree"]),
                     Ademo_CheckJoueClub(browser, Product["joueclub"]),
