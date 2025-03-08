@@ -30,7 +30,8 @@ client.once('ready', async () => {
                         { name: 'LECLERC', value: 'leclerc' },
                         { name: 'MICROMANIA', value: 'micromania' },
                         { name: 'SMARTOYS', value: 'smartoys' },
-                        { name: 'VINTICARDS', value: 'vinticards' }
+                        { name: 'VINTICARDS', value: 'vinticards' },
+                        { name: 'KINGJOUET', value: 'kingjouet' }
                     )
             )
             .addStringOption(option =>

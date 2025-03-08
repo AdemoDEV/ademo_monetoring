@@ -1,13 +1,10 @@
 import { Builder, By, until } from 'selenium-webdriver';
 import chrome from 'selenium-webdriver/chrome.js';
-import { notifyDiscord } from '../utils/Discord.js';
-import { randomDelay } from '../utils/humanBehavior.js';
+import { notifyDiscord } from '../../utils/Discord.js';
+import { randomDelay } from '../../utils/humanBehavior.js';
+
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1341888650530525246/uGkh3jSnfZaValdAzShfFqVT0ul-c0ccooGPf_VVE34zQ1VT3VH9M9_lT7O-jaFkuf_V";
 class FnacScraper {
-    // constructor() {
-    //     // Configuration de base sans proxy
-    // }
-
     async initDriver() {
         const options = new chrome.Options();
         options.addArguments(
@@ -28,6 +25,7 @@ class FnacScraper {
             .forBrowser('chrome')
             .setChromeOptions(options)
             .build();
+
         await this.driver.executeScript(`
             Object.defineProperty(navigator, 'webdriver', {
                 get: () => undefined
@@ -64,7 +62,7 @@ class FnacScraper {
                 url: data.url,
                 timestamp: data.timestamp
             }
-            await notifyDiscord(product, DISCORD_WEBHOOK_URL, "fnac", false, "non", true, "✅ Disponible", true);
+            await notifyDiscord(product, DISCORD_WEBHOOK_URL, "fnac", false, "non", true, " Disponible", true);
             return data;
 
         } catch (error) {
@@ -93,6 +91,22 @@ class FnacScraper {
             .pause(1000)
             .perform();
     }
+}
+
+export async function Ademo_CheckFnac(PRODUCT_URLS) {
+    const scraper = new FnacScraper();
+    console.log(" Démarrage du scraping Fnac...");
+    for (const url of PRODUCT_URLS) {
+        try {
+            console.log(` Vérification du produit: ${url}`);
+            await scraper.scrapeProduct(url);
+            await randomDelay(3000, 5000);
+        } catch (error) {
+            console.error(` Erreur lors du scraping de ${url}:`, error);
+            continue;
+        }
+    }
+    console.log(" Scraping Fnac terminé");
 }
 
 export default FnacScraper;

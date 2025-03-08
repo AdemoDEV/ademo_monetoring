@@ -4,90 +4,55 @@
  */
 
 /**
- * Génère des mouvements de souris aléatoires sur la page
+ * Génère un délai aléatoire pour simuler un comportement humain
+ * @param {number} min - Délai minimum en millisecondes
+ * @param {number} max - Délai maximum en millisecondes
+ * @returns {Promise} - Promesse qui se résout après le délai
  */
-export async function generateMouseMovements(page) {
-    await page.evaluate(() => {
-        const points = [];
-        const numPoints = 10 + Math.floor(Math.random() * 10);
-        
-        // Génère des points de contrôle aléatoires
-        for (let i = 0; i < numPoints; i++) {
-            points.push({
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
-                timestamp: Date.now() + i * (100 + Math.random() * 200)
-            });
-        }
-
-        // Simule les mouvements de souris entre les points
-        points.forEach(point => {
-            setTimeout(() => {
-                const event = new MouseEvent('mousemove', {
-                    bubbles: true,
-                    cancelable: true,
-                    clientX: point.x,
-                    clientY: point.y,
-                    screenX: point.x,
-                    screenY: point.y,
-                    movementX: 5 - Math.random() * 10,
-                    movementY: 5 - Math.random() * 10
-                });
-                document.dispatchEvent(event);
-            }, point.timestamp - Date.now());
-        });
-    });
-}
-
-/**
- * Génère un délai aléatoire entre min et max millisecondes
- */
-export async function randomDelay(min, max) {
-    const delay = Math.floor(Math.random() * (max - min + 1) + min);
+export function randomDelay(min, max) {
+    const delay = Math.floor(Math.random() * (max - min + 1)) + min;
     return new Promise(resolve => setTimeout(resolve, delay));
 }
 
 /**
- * Simule des frappes de clavier aléatoires
+ * Simule des mouvements de souris naturels
+ * @param {Object} driver - Instance du WebDriver Selenium
  */
-export async function simulateKeystrokes(page, text) {
-    for (const char of text) {
-        await page.keyboard.type(char, {
-            delay: 50 + Math.random() * 150
-        });
+export async function simulateMouseMovements(driver) {
+    try {
+        const actions = driver.actions({async: true});
+        // Mouvements aléatoires de la souris
+        for (let i = 0; i < 3; i++) {
+            const x = Math.floor(Math.random() * 800);
+            const y = Math.floor(Math.random() * 600);
+            await actions.move({x, y}).pause(500).perform();
+        }
+    } catch (error) {
+        console.warn("⚠️ Erreur lors de la simulation des mouvements de souris:", error);
     }
 }
 
 /**
  * Simule un scroll naturel
+ * @param {Object} driver - Instance du WebDriver Selenium
  */
-export async function naturalScroll(page) {
-    await page.evaluate(() => {
-        return new Promise((resolve) => {
-            let currentScroll = 0;
-            const maxScroll = Math.min(
-                document.documentElement.scrollHeight - window.innerHeight,
-                2000
-            );
+export async function simulateNaturalScroll(driver) {
+    try {
+        await driver.executeScript(`
+            const scrollHeight = document.documentElement.scrollHeight;
+            const viewportHeight = window.innerHeight;
+            const scrollSteps = Math.floor(Math.random() * 3) + 2; // 2-4 étapes
             
-            const scroll = () => {
-                if (currentScroll >= maxScroll) {
-                    resolve();
-                    return;
-                }
-
-                const step = Math.floor(10 + Math.random() * 30);
-                currentScroll = Math.min(currentScroll + step, maxScroll);
-                
+            for (let i = 0; i < scrollSteps; i++) {
+                const targetScroll = Math.floor((scrollHeight - viewportHeight) * (i + 1) / scrollSteps);
                 window.scrollTo({
-                    top: currentScroll,
+                    top: targetScroll,
                     behavior: 'smooth'
                 });
-
-                setTimeout(scroll, 100 + Math.random() * 200);
-            };
-
-            scroll();
-        });
-    });
+            }
+        `);
+        await randomDelay(500, 1000);
+    } catch (error) {
+        console.warn("⚠️ Erreur lors de la simulation du scroll:", error);
+    }
 }
