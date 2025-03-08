@@ -94,7 +94,7 @@ console.log("✅ Chargement de init.js...");
 
                 puppeteer.use(StealthPlugin());
                 const browser = await puppeteer.launch({
-                    headless: true,
+                    headless: false,
                     args: [
                         `--proxy-server=${PROXY_HOST}:${PROXY_PORT}`,
                         '--no-sandbox',
@@ -110,16 +110,16 @@ console.log("✅ Chargement de init.js...");
 
                 await Promise.all([
                     Ademo_CheckFnac(browser, Product["fnac"]),
-                    Ademo_CheckVintiCards(browser, Product["vinticards"]),
-                    Ademo_checkMicromania(browser, Product["micromania"]),
-                    Ademo_CheckLecler(browser, Product["leclerc"]),
-                    Ademo_CheckSmartoys(browser, Product["smartoys"]),
-                    Ademo_CheckLaGrandRecre(browser, Product["lagrandrecree"]),
-                    Ademo_CheckJoueClub(browser, Product["joueclub"]),
-                    Ademo_CheckGuiztteFamily(browser, Product["guizettefamily"]),
-                    Ademo_CheckDreamLand(browser, Product["dreamland"]),
-                    Ademo_CheckAuchan(browser, Product["auchan"]),
-                    Ademo_CheckAmazon(browser, Product["amazon"])
+                    // Ademo_CheckVintiCards(browser, Product["vinticards"]),
+                    // Ademo_checkMicromania(browser, Product["micromania"]),
+                    // Ademo_CheckLecler(browser, Product["leclerc"]),
+                    // Ademo_CheckSmartoys(browser, Product["smartoys"]),
+                    // Ademo_CheckLaGrandRecre(browser, Product["lagrandrecree"]),
+                    // Ademo_CheckJoueClub(browser, Product["joueclub"]),
+                    // Ademo_CheckGuiztteFamily(browser, Product["guizettefamily"]),
+                    // Ademo_CheckDreamLand(browser, Product["dreamland"]),
+                    // Ademo_CheckAuchan(browser, Product["auchan"]),
+                    // Ademo_CheckAmazon(browser, Product["amazon"])
                 ]);
 
                 console.log("🛑 Scraping terminé. Fermeture du navigateur.");
