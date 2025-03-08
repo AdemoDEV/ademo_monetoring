@@ -48,7 +48,7 @@ console.log("✅ Chargement de init.js...");
                 console.log("🚀 Lancement du scraping...");
                 await new Promise(resolve => setTimeout(resolve, 5000));
                 await Ademo_CheckAmazon(Product["amazon"]);
-                await Ademo_CheckFnac(Product["fnac"]);
+                // await Ademo_CheckFnac(Product["fnac"]);
                 // puppeteer.use(StealthPlugin());
                 // const browser = await puppeteer.launch({
                 //     headless: false,

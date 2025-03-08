@@ -1,7 +1,7 @@
 import { Builder, By, until } from 'selenium-webdriver';
 import chrome from 'selenium-webdriver/chrome.js';
 import { notifyDiscord } from '../../utils/Discord.js';
-import { randomDelay } from '../../utils/humanBehavior.js';
+import { randomDelay, getCountryFromURL } from '../../utils/humanBehavior.js';
 
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1341888650530525246/uGkh3jSnfZaValdAzShfFqVT0ul-c0ccooGPf_VVE34zQ1VT3VH9M9_lT7O-jaFkuf_V";
 class AmazonScraper {
@@ -39,11 +39,12 @@ class AmazonScraper {
             await this.driver.get(url);
             await randomDelay(2000, 4000);
             await this.simulateHumanBehavior();
+            const country = await getCountryFromURL(url);
             const data = await this.driver.executeScript(`
                 let IsAvailable = false;
                 const title = document.querySelector("#productTitle")?.innerText.trim() || "Produit inconnu";
                 const Disponible = document.querySelector("#availability")?.innerText.trim();
-                 if (Disponible == '' || Disponible == 'In Stock' || Disponible == 'En stock') {
+                 if (Disponible == '' || Disponible == 'In Stock' || Disponible == 'En stock' || Disponible == 'Op voorraad') {
                     IsAvailable = true;
                  } else if (Disponible == 'This item cannot be shipped to your selected delivery location. Please choose a different delivery location.') {
                      IsAvailable = false;
@@ -71,10 +72,12 @@ class AmazonScraper {
                 image: data.image,
                 IsAvailable : data.IsAvailable,
                 url: data.url,
+                pays: `Amazon ${country}`,
                 timestamp: data.timestamp
             }
             if (product.IsAvailable) {
-                await notifyDiscord(product, DISCORD_WEBHOOK_URL, "amazon", false, "non", true, "✅ Disponible", true);
+                console.log(`✅ Produit disponible : ${product.title} (${country})`);
+                await notifyDiscord(product, DISCORD_WEBHOOK_URL, "amazon", false, "non", true, "✅ Disponible", true, product.pays);
             }
             return data;
 

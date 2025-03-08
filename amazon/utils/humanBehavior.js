@@ -1,23 +1,8 @@
-/**
- * Utilitaires pour la simulation de comportement humain
- * Aide à contourner la détection de bot par Datadome
- */
-
-/**
- * Génère un délai aléatoire pour simuler un comportement humain
- * @param {number} min - Délai minimum en millisecondes
- * @param {number} max - Délai maximum en millisecondes
- * @returns {Promise} - Promesse qui se résout après le délai
- */
 export function randomDelay(min, max) {
     const delay = Math.floor(Math.random() * (max - min + 1)) + min;
     return new Promise(resolve => setTimeout(resolve, delay));
 }
 
-/**
- * Simule des mouvements de souris naturels
- * @param {Object} driver - Instance du WebDriver Selenium
- */
 export async function simulateMouseMovements(driver) {
     try {
         const actions = driver.actions({async: true});
@@ -32,10 +17,6 @@ export async function simulateMouseMovements(driver) {
     }
 }
 
-/**
- * Simule un scroll naturel
- * @param {Object} driver - Instance du WebDriver Selenium
- */
 export async function simulateNaturalScroll(driver) {
     try {
         await driver.executeScript(`
@@ -55,4 +36,14 @@ export async function simulateNaturalScroll(driver) {
     } catch (error) {
         console.warn("⚠️ Erreur lors de la simulation du scroll:", error);
     }
+}
+
+
+export async function getCountryFromURL(url) {
+    const domain = new URL(url).hostname;
+    const parts = domain.split(".");
+    if (parts.length >= 2) {
+        return parts[parts.length - 1].toUpperCase();
+    }
+    return "Pays inconnu";
 }

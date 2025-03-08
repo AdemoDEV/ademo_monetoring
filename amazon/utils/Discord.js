@@ -24,9 +24,10 @@ client.once('ready', () => {
     console.log(`🤖 Connecté en tant que ${client.user.tag}`);
 });
 
-export async function notifyDiscord(product, webhooks, Site, stockon, stock, plus, plustitle, enligne) {
+export async function notifyDiscord(product, webhooks, Site, stockon, stock, plus, plustitle, enligne, country) {
     try {
         enligne = enligne || false;
+        const footerText = country ? `PokéSauce Surveillance - ${country}` : 'PokéSauce Surveillance';
         const channelID = channelMapping[Site];
         if (!channelID) {
             console.error(`❌ Aucun salon Discord configuré pour le site : ${Site}`);
@@ -56,7 +57,7 @@ export async function notifyDiscord(product, webhooks, Site, stockon, stock, plu
                     inline: false,
                 }
             )
-            .setFooter({ text: 'PokéSauce Surveillance' })
+            .setFooter({ text: footerText })
             .setTimestamp();
 
 
