@@ -1,6 +1,6 @@
 import { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle  } from 'discord.js';
 import { Monitor } from '../config/config.js';
-const DISCORD_TOKEN = 'Njg2MTk2MTAzNzY2MzQzNjk0.GYLb0W.s0ORpuHiDcYOZM9o5Lczo7Q_Xlkw4-h9x6S5pA';
+const DISCORD_TOKEN = '';
 
 const channelMapping = {
     'vinticards': '1340764805598023802',
